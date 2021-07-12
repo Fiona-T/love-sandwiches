@@ -51,8 +51,9 @@ def validate_data(values):
     """
     validate the data entered by users
     """
-    # print(values)
+    print(values)
     try:
+        [int(value) for value in values]
         if len(values) != 6:
             raise ValueError(
                 f"Exactly 6 values are required, you entered {len(values)}"
