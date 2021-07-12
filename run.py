@@ -38,7 +38,27 @@ def get_sales_data():
     print("Example: 10,20,30,40,50,60\n")
 
     data_str = input("Enter your data here: ")
-    print(f"The data provided is {data_str}")
+    # to check the data variable is working
+    # print(f"The data provided is {data_str}")
+
+    # split data entered into a list, split where commas are, remove commas
+    sales_data = data_str.split(",")
+    # print(sales_data)
+    validate_data(sales_data)
+
+
+def validate_data(values):
+    """
+    validate the data entered by users
+    """
+    # print(values)
+    try:
+        if len(values) != 6:
+            raise ValueError(
+                f"Exactly 6 values are required, you entered {len(values)}"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
 
 
 get_sales_data()
