@@ -119,6 +119,20 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
+def update_surplus_worksheet(data):
+    """
+    update the surplus worksheet
+    add new row with the list data calculated in calculate_surplus_data
+    """
+    # feedback to user in terminal while updating the worksheet
+    print("Updating surplus worksheet...\n")
+    # the sales worksheet from the googlesheets spreadsheet
+    surplus_worksheet = SHEET.worksheet('surplus')
+    # add new row to the worksheet, populated with the data entered
+    surplus_worksheet.append_row(data)
+    print("Surplus worksheet updated with data successfully.\n")
+
+
 def main():
     """
     Run the program functions
@@ -133,6 +147,7 @@ def main():
     # surplus calced by calling function + passing it sales_data
     new_surplus_data = calculate_surplus_data(sales_data)
     print(new_surplus_data)
+    update_surplus_worksheet(new_surplus_data)
 
 
 print("Welcome to Love Sandwiches Data Automation")
