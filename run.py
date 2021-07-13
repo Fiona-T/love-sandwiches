@@ -63,7 +63,7 @@ def validate_data(values):
     """
     print(values)
     try:
-        # convert data entered into integer
+        # try to convert data entered into integer
         [int(value) for value in values]
         # check if correct length of data, if not raise error
         if len(values) != 6:
@@ -78,5 +78,24 @@ def validate_data(values):
     return True
 
 
+def update_sales_worksheet(data):
+    """
+    update the sales worksheet
+    add new row with the list data provided by user in get_sales_data
+    """
+    # feedback to user in terminal while updating the worksheet
+    print("Updating sales worksheet...\n")
+    # the sales worksheet from the googlesheets spreadsheet
+    sales_worksheet = SHEET.worksheet('sales')
+    # add new row to the worksheet, populated with the data entered
+    sales_worksheet.append_row(data)
+    print("Sales worksheet updated with data successfully.\n")
+
+
 # the validated data returned from get_sales_data and validate_data
 data = get_sales_data()
+print(data)
+# convert the data from sales_data function into integers
+sales_data = [int(num) for num in data]
+# call update_sales_worksheet function, pass it the sales_data (integer)
+update_sales_worksheet(sales_data)
