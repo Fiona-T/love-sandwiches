@@ -138,23 +138,53 @@ def get_last_5_entries_sales():
     return columns
 
 
+def calculate_stock_data(data):
+    """
+    Calculate the average stock for each item type
+    add 10% to average
+    """
+    # feedback for user
+    print("Calculating stock data...\n")
+    new_stock_data = []
+
+    # for each column in the sales_columns
+    for column in data:
+        # convert the values in that column to integers
+        int_column = [int(num) for num in column]
+        # get the average i.e. sum of column divided by number of values
+        average = sum(int_column) / len(int_column)
+        # increase the average by 10%
+        stock_num = average * 1.1
+        # append the resulting figure to the new stock list, rounded
+        new_stock_data.append(round(stock_num))
+
+    return new_stock_data
+
+
 def main():
     """
     Run the program functions
     """
     # the validated data returned from get_sales_data and validate_data
     data = get_sales_data()
-    print(data)
+    # print(data)
     # convert the data from sales_data function into integers
     sales_data = [int(num) for num in data]
-    # call update_sales_worksheet function, pass it the sales_data (integer)
+    # update the worksheet with the sales data (integer), on sales sheet
     update_worksheet(sales_data, "sales")
     # surplus calced by calling function + passing it sales_data
     new_surplus_data = calculate_surplus_data(sales_data)
-    print(new_surplus_data)
+    # print(new_surplus_data)
+    # update the worksheet with the surplus data, on surplus sheet
     update_worksheet(new_surplus_data, "surplus")
+    # get last 5 entries from sales spreadsheet
+    sales_columns = get_last_5_entries_sales()
+    # calc sales data using the last 5 entries from above
+    stock_data = calculate_stock_data(sales_columns)
+    # print(stock_data)
+    # update the worksheet with the stock data, on stock sheet
+    update_worksheet(stock_data, "stock")
 
 
 print("Welcome to Love Sandwiches Data Automation")
-# main()
-sales_columns = get_last_5_entries_sales()
+main()
