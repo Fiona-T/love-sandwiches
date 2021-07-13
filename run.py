@@ -79,20 +79,6 @@ def validate_data(values):
     return True
 
 
-def update_sales_worksheet(data):
-    """
-    update the sales worksheet
-    add new row with the list data provided by user in get_sales_data
-    """
-    # feedback to user in terminal while updating the worksheet
-    print("Updating sales worksheet...\n")
-    # the sales worksheet from the googlesheets spreadsheet
-    sales_worksheet = SHEET.worksheet('sales')
-    # add new row to the worksheet, populated with the data entered
-    sales_worksheet.append_row(data)
-    print("Sales worksheet updated with data successfully.\n")
-
-
 def calculate_surplus_data(sales_row):
     """
     Deduct sales from stock to get surplus
@@ -119,18 +105,19 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
-def update_surplus_worksheet(data):
+def update_worksheet(data, worksheet):
     """
-    update the surplus worksheet
-    add new row with the list data calculated in calculate_surplus_data
+    receives a list of integers to be inserted into worksheet
+    update the relevant worksheet by adding new row and inserting data
     """
     # feedback to user in terminal while updating the worksheet
-    print("Updating surplus worksheet...\n")
-    # the sales worksheet from the googlesheets spreadsheet
-    surplus_worksheet = SHEET.worksheet('surplus')
+    print(f"Updating {worksheet} worksheet...\n")
+    # the relevant worksheet from the googlesheets spreadsheet
+    worksheet_to_update = SHEET.worksheet(worksheet)
     # add new row to the worksheet, populated with the data entered
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet updated with data successfully.\n")
+    worksheet_to_update.append_row(data)
+    # print to terminal to confirm to user the data was added to spreadsheet
+    print(f"{worksheet} worksheet updated with data successfully.\n")
 
 
 def main():
@@ -143,11 +130,11 @@ def main():
     # convert the data from sales_data function into integers
     sales_data = [int(num) for num in data]
     # call update_sales_worksheet function, pass it the sales_data (integer)
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, "sales")
     # surplus calced by calling function + passing it sales_data
     new_surplus_data = calculate_surplus_data(sales_data)
     print(new_surplus_data)
-    update_surplus_worksheet(new_surplus_data)
+    update_worksheet(new_surplus_data, "surplus")
 
 
 print("Welcome to Love Sandwiches Data Automation")
