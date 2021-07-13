@@ -32,34 +32,51 @@ SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 def get_sales_data():
     """
     Get sales figures input from the user
+    Call validate-data function with the inputted data
+    Continue looping until validate_data returns true
     """
-    print("Please enter sales data from the last market.")
-    print("Data should be six numbers, separated by commas.")
-    print("Example: 10,20,30,40,50,60\n")
+    while True:
+        print("Please enter sales data from the last market.")
+        print("Data should be six numbers, separated by commas.")
+        print("Example: 10,20,30,40,50,60\n")
 
-    data_str = input("Enter your data here: ")
-    # to check the data variable is working
-    # print(f"The data provided is {data_str}")
+        data_str = input("Enter your data here: ")
+        # to check the data variable is working
+        # print(f"The data provided is {data_str}")
 
-    # split data entered into a list, split where commas are, remove commas
-    sales_data = data_str.split(",")
-    # print(sales_data)
-    validate_data(sales_data)
+        # split data entered into a list, split where commas are, remove commas
+        sales_data = data_str.split(",")
+        # print(sales_data)
+        # call validate_data, if it returns true then data valid, loop stops.
+        if validate_data(sales_data):
+            print("data is valid")
+            break
+
+    return sales_data
 
 
 def validate_data(values):
     """
-    validate the data entered by users
+    validate the data entered by user
+    print error to terminal if not integer or 6 values
+    return true when validated or false when not, to get_sales_data
     """
     print(values)
     try:
+        # convert data entered into integer
         [int(value) for value in values]
+        # check if correct length of data, if not raise error
         if len(values) != 6:
             raise ValueError(
                 f"Exactly 6 values are required, you entered {len(values)}"
             )
+    # print relevant error message(e),return false to get_data to continue loop
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
+        return False
+    # returns True if no errors, stops while loop in get_data
+    return True
 
 
-get_sales_data()
+# the validated data returned from get_sales_data and validate_data
+data = get_sales_data()
