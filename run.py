@@ -2,7 +2,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
+# from pprint import pprint
 
 # lists the APIs the program has access to, for IAM configuration
 SCOPE = [
@@ -103,9 +103,20 @@ def calculate_surplus_data(sales_row):
     # get values from stock sheet of google spreadsheet
     stock = SHEET.worksheet("stock").get_all_values()
     # print returned stock values using pprint
-    pprint(stock)
+    # pprint(stock)
     stock_row = stock[-1]
-    print(stock_row)
+    # print(f"stock row: {stock_row}")
+    # print(f"sales row: {sales_row}")
+    # declaring variable which will hold list of surplus data when calcd
+    surplus_data = []
+    # for each item in both lists, take one from other, add to suplus list
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+    # print the list when the for loop is finished
+    # print(surplus_data)
+    # return the list of surplus values
+    return surplus_data
 
 
 def main():
@@ -119,8 +130,9 @@ def main():
     sales_data = [int(num) for num in data]
     # call update_sales_worksheet function, pass it the sales_data (integer)
     update_sales_worksheet(sales_data)
-    # call function to calc surplus, pass it sales_data
-    calculate_surplus_data(sales_data)
+    # surplus calced by calling function + passing it sales_data
+    new_surplus_data = calculate_surplus_data(sales_data)
+    print(new_surplus_data)
 
 
 print("Welcome to Love Sandwiches Data Automation")
