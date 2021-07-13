@@ -2,6 +2,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 # lists the APIs the program has access to, for IAM configuration
 SCOPE = [
@@ -92,10 +93,35 @@ def update_sales_worksheet(data):
     print("Sales worksheet updated with data successfully.\n")
 
 
-# the validated data returned from get_sales_data and validate_data
-data = get_sales_data()
-print(data)
-# convert the data from sales_data function into integers
-sales_data = [int(num) for num in data]
-# call update_sales_worksheet function, pass it the sales_data (integer)
-update_sales_worksheet(sales_data)
+def calculate_surplus_data(sales_row):
+    """
+    Deduct sales from stock to get surplus
+    Positive figure means excess - thrown away
+    Negative means extra made after stock sold out
+    """
+    print("Calculating surplus data...\n")
+    # get values from stock sheet of google spreadsheet
+    stock = SHEET.worksheet("stock").get_all_values()
+    # print returned stock values using pprint
+    pprint(stock)
+    stock_row = stock[-1]
+    print(stock_row)
+
+
+def main():
+    """
+    Run the program functions
+    """
+    # the validated data returned from get_sales_data and validate_data
+    data = get_sales_data()
+    print(data)
+    # convert the data from sales_data function into integers
+    sales_data = [int(num) for num in data]
+    # call update_sales_worksheet function, pass it the sales_data (integer)
+    update_sales_worksheet(sales_data)
+    # call function to calc surplus, pass it sales_data
+    calculate_surplus_data(sales_data)
+
+
+print("Welcome to Love Sandwiches Data Automation")
+main()
