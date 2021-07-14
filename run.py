@@ -41,7 +41,7 @@ def get_sales_data():
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here: \n")
         # to check the data variable is working
         # print(f"The data provided is {data_str}")
 
@@ -62,7 +62,7 @@ def validate_data(values):
     print error to terminal if not integer or 6 values
     return true when validated or false when not, to get_sales_data
     """
-    print(values)
+    # print(values)
     try:
         # try to convert data entered into integer
         [int(value) for value in values]
